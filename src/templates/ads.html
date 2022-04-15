@@ -1,0 +1,23 @@
+{% extends "layout.html" %} {% block body %}
+	<div class="d-flex flex-column justify-content-center">
+		<h1 id="counter" class="text-center fs-1 fw-bold">5</h1>
+		<img src="https://crehana-blog.imgix.net/media/filer_public/90/83/9083027a-fc03-4e3f-8f55-636ffce6d36c/mcdonalds-happy-meal.jpg" alt="alt" style="border-radius: 100px;"/>
+	</div>
+
+	<script>
+		function redirect() {
+			const counter = document.getElementById("counter");
+			let total = 5;
+
+			setInterval(() => {
+				if (total > 0) {
+					counter.innerHTML = total -= 1;
+				} else {
+					window.location.replace("{{ url }}");
+				}
+			}, 1000);
+		}
+
+		redirect();
+	</script>
+{% endblock %}

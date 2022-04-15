@@ -1,0 +1,59 @@
+{% extends "layout.html" %} {% block body %}
+
+<div class="d-flex flex-column justify-content-center">
+	<div class="card card-body p-5 m-t-5" style="border-radius: 20px;">
+		{% with newUrl = get_flashed_messages() %} {% if not newUrl %}
+            <form action="{{ url_for('generate') }}" method="POST">
+                <div class="input-group mb-3">
+                    <span class="input-group-text" id="basic-addon3" style="border-radius: 10px;">
+                        Enter the URL
+                    </span>
+
+                    <input type="text"
+                        class="form-control ms-2"
+                        style="border-radius: 10px;"
+                        title="URL no valida"
+                        pattern="^https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{1,256}\.[a-zA-Z0-9()]{1,6}\b([-a-zA-Z0-9()@:%_\+.~#?&//=]*)$"
+                        name="url"
+                        required/>
+
+                        <button class="btn btn-dark ms-2" style="border-radius: 10px;">Generate</button>
+                </div>
+            </form>
+
+		{% else %}
+            <div class="input-group mb-3">
+                <input id="newUrlId"
+                type="text"
+                class="form-control ms-2"
+                style="border-radius: 10px;"
+                value="{{ newUrl[0] }}"/>
+
+                <button id="copy"
+                    onclick="onCopyUrl()"
+                    type="button"
+                    class="btn btn-outline-success ms-2"
+                    style="border-radius: 10px;">Copy</button>
+            </div>
+		{% endif %} {% endwith %}
+	</div>
+</div>
+
+<script>
+	function onCopyUrl() {
+		const newCopy = document.getElementById("newUrlId");
+		newCopy.select();
+		newCopy.setSelectionRange(0, 50)
+		document.execCommand("copy");
+
+		const buttoncopy = document.getElementById("copy");
+		buttoncopy.innerHTML = "URL Copied";
+		buttoncopy.classList.replace("btn-outline-success", "btn-success");
+
+		setTimeout(() => {
+			window.location.replace("{{ url_for('init') }}");
+		}, 3000);
+	}
+</script>
+
+{% endblock %}
